@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Workout Gambling</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./style.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div class="my-container">
+            <h1>Workout Gambling</h1>
+        <div class="current-activity">
+            <h1>Current Activity</h1>
+            <h2 id="current-activity-name">-------</h2>
+            <h2 id="current-activity-duration">-----</h2>
+        </div>
+        <div id="carouselExampleControls" class="activity-carousel carousel slide" data-bs-interval="false">
+            <div class="carousel-inner">
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+          <div class="my-modal" id="start-activity-modal" tabindex="-1">
+            <div class="dark-background"></div>
+            <div class="modal-content">
+                <h2 id="modal-title">Gamble on the workout time</h2>
+                <h3 id="modal-info">Info</h3>
+                <div class="modal-button-container">
+                    <button id="modal-gamble-btn">Gamble</button>
+                    <button id="modal-stay-btn">Stay</button>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+        <script src="./script.js" async defer></script>
+    </body>
+</html>
