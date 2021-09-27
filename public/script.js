@@ -2,26 +2,32 @@ const activities = [
     {
         name: 'Upphopp',
         duration: 30,
+        maxDuration: 60,
     },
     {
         name: 'Sprattelgubbe',
         duration: 30,
+        maxDuration: 60,
     },
     {
         name: 'Slalom',
         duration: 30,
+        maxDuration: 60,
     },
     {
         name: 'Armhävningar',
         duration: 30,
+        maxDuration: 60,
     },
     {
         name: 'Situps',
         duration: 30,
+        maxDuration: 60,
     },
     {
         name: 'Sova',
         duration: 30,
+        maxDuration: 60,
     }
 ]
 
@@ -35,8 +41,12 @@ const modalTitle = document.getElementById('modal-title')
 const modalInfo = document.getElementById('modal-info')
 const modalGambleBtn = document.getElementById('modal-gamble-btn')
 const modalStayBtn = document.getElementById('modal-stay-btn')
+const carouselElem = document.querySelector('#carouselExampleControls')
+const carouselController = new bootstrap.Carousel(carouselElem)
 
 let selectedActivity
+
+let globalCounter
 
 
 const addActivity = () => {
@@ -66,7 +76,6 @@ const addActivity = () => {
 }
 
 const activityClicked = (elem) => {
-    console.log('Activity clicked ', elem.id)
     startActivity(elem.id)
     
 }
@@ -74,7 +83,9 @@ const activityClicked = (elem) => {
 const startActivity = (activityID) => {
     const currActivity = activities[parseInt(activityID)]
     currentActivityName.innerHTML = currActivity.name
-    currentActivityDuration.innerHTML = `${currActivity.duration}`
+    currentActivityDuration.innerHTML = '----'
+
+    clearCountdown()
     
     showModal(currActivity)
 }
@@ -83,8 +94,7 @@ const showModal = (activity) => {
     selectedActivity = activity
     startActivityModal.classList.add('modal-active')
     
-    console.log(modalInfo)
-    modalInfo.innerHTML = `Do you want to do ${activity.name} for ${activity.duration}` 
+    modalInfo.innerHTML = `Vill du göra ${activity.name} i ${activity.duration} sekunder?` 
 }
 
 const addEventListenersToModalButtons = () => {
@@ -93,25 +103,32 @@ const addEventListenersToModalButtons = () => {
 }
 
 const gambleBtnClicked = () => {
-    console.log('Gamble')
-}
-
-const stayBtnClicked = () => {
-    console.log('Stay')
-    startActivityCountdown()
+    const duration = Math.floor((Math.random() * selectedActivity.maxDuration))
+    startActivityCountdown(duration)
     startActivityModal.classList.remove('modal-active')
 }
 
-const startActivityCountdown = () => {
-    console.log('Start activity with time ')
-    let startTime = selectedActivity.duration
-    const countdown = setInterval(() => {
-        if(startTime === 0) {
-            clearInterval(countdown)
-        }
+const stayBtnClicked = () => {
+    startActivityCountdown(selectedActivity.duration)
+    startActivityModal.classList.remove('modal-active')
+}
+
+const startActivityCountdown = (startTime) => {
+    currentActivityDuration.innerHTML = `${startTime}`
+    globalCounter = setInterval(() => {
         startTime -= 1
+        if(startTime === 0) {
+            clearInterval(globalCounter)
+            carouselController.next()
+        }
         currentActivityDuration.innerHTML = `${startTime}`
     }, 1000)
+}
+
+const clearCountdown = () => {
+    if (globalCounter) {
+        clearInterval(globalCounter)
+    }
 }
 
 addActivity()
