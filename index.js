@@ -1,11 +1,16 @@
 const express = require('express')
 const helmet = require("helmet");
 const mongoose = require('mongoose');
+const session = require('express-session')
+const MongoStore = require('connect-mongo')
 require('dotenv').config()
 
 const app = express()
 
+const mongoUrl = `mongodb+srv://rickard:${process.env.DB_PASSWORD}@cluster0.pn9qj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
+
 app.use(express.json())
+
 app.use(helmet({
       contentSecurityPolicy: {
             directives: {
@@ -17,6 +22,14 @@ app.use(helmet({
                   connectSrc: ["'self'", "https://accounts.google.com"]
             }
       },
+}))
+
+app.use(session({
+      secret: process.env.SESSION_SECRET,
+      resave: false,
+      saveUninitialized: false,
+      cookie: { secure: false, maxAge: 1000 * 60 }, // We do not have https yet
+      store: new MongoStore({ mongoUrl, collectionName: 'sessions' })
 }))
 app.use(express.static('public'))
 app.use('/auth', require('./routes/auth'))
@@ -50,7 +63,7 @@ const listen = () => {
 const connectToDb = async () => {
       try {
             console.log('Connecting to db... ')
-            await mongoose.connect(`mongodb+srv://rickard:${process.env.DB_PASSWORD}@cluster0.pn9qj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`)
+            await mongoose.connect(mongoUrl)
             console.log('DB connected')
       } catch (error) {
             console.error('Could not connect to db: ', error)

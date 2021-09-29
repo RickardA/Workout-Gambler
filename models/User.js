@@ -7,8 +7,6 @@ let user = new Schema({
       given_name: { type: String, required: true },
       family_name: { type: String, required: true },
       locale: { type: String, required: false },
-      iat: { type: Number, required: true },
-      exp: { type: Number, required: true },
 });
 
 module.exports = db.model('User', user);

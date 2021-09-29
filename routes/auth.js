@@ -11,8 +11,9 @@ router.post('/login', async (req, res) => {
             console.log('Request ', req.body)
             const { id_token } = req.body
             const payload = await verify(id_token)
-            checkUserInDb(payload)
-            res.status(200).send('Hello World')
+            const user = checkUserInDb(payload)
+            req.session.user = user
+            res.redirect('/')
       } catch (error) {
             console.error('Error in login: ', error)
             res.status(500).send('Something went wrong')
@@ -34,15 +35,17 @@ const checkUserInDb = async (payload) => {
       const user = await global.models.User.findOne({ sub: payload.sub })
       if(!user) {
             console.log('User does not exist in db')
-            saveUserInDb(payload)
+            return saveUserInDb(payload)
       }
       console.log('User in db ', user)
+      return user
 }
 
 const saveUserInDb = async (payload) => {
       console.log('Saving user in db: ', payload)
       const user = await global.models.User.create(payload)
       console.log('User created ', user)
+      return user
 }
 
 module.exports = router
