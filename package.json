@@ -15,6 +15,7 @@
     "express": "^4.17.1",
     "google-auth-library": "^7.10.0",
     "helmet": "^4.6.0",
+    "helmet-csp": "^3.4.0",
     "mongoose": "^6.0.8"
   }
 }

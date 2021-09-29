@@ -6,7 +6,18 @@ require('dotenv').config()
 const app = express()
 
 app.use(express.json())
-app.use(helmet())
+app.use(helmet({
+      contentSecurityPolicy: {
+            directives: {
+                  defaultSrc: ["'self'"],
+                  scriptSrc: ["'self'", "https://ajax.googleapis.com", "https://cdn.jsdelivr.net", "https://accounts.google.com", "https://apis.google.com"],
+                  styleSrc: ["'self'", "https://cdn.jsdelivr.net", "'unsafe-inline'", "https://accounts.google.com"],
+                  imgSrc: ["'self'", "http:", "data:"],
+                  frameSrc: ["'self'", "https://accounts.google.com"],
+                  connectSrc: ["'self'", "https://accounts.google.com"]
+            }
+      },
+}))
 app.use(express.static('public'))
 app.use('/auth', require('./routes/auth'))
 
@@ -32,7 +43,7 @@ const listen = () => {
                   console.error('Could not serve: ', error)
                   throw error
             }
-            console.log('Listening on port 3000')
+            console.log('Listening on port ', process.env.PORT)
       })
 }
 

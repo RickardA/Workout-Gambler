@@ -1,7 +1,6 @@
 function handleCredentialResponse (response) {
       console.log("Encoded JWT ID token: " + response.credential);
 }
-
 window.onload = function () {
       google.accounts.id.initialize({
             client_id: "385996968425-0asav67051ro7oe509l603jvm7p88t1s.apps.googleusercontent.com",
