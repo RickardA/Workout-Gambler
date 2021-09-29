@@ -5,12 +5,16 @@ require('dotenv').config()
 
 const app = express()
 
+app.use(express.json())
 app.use(helmet())
 app.use(express.static('public'))
+app.use('/auth', require('./routes/auth'))
 
-app.post('/login', function (req, res) {
-      res.send('Hello World ', req.body)
-})
+global.db = mongoose.connection
+
+global.models = {
+      User: require('./models/User'),
+}
 
 const start = async () => {
       try {
