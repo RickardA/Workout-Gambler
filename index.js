@@ -27,7 +27,7 @@ const start = async () => {
 }
 
 const listen = () => {
-      app.listen(3000, (error) => {
+      app.listen(process.env.PORT, (error) => {
             if (error) {
                   console.error('Could not serve: ', error)
                   throw error
