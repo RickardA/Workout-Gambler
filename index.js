@@ -12,13 +12,25 @@ app.post('/login', function (req, res) {
       res.send('Hello World ', req.body)
 })
 
-app.listen(3000, (error) => {
-      if (error) {
-            console.error('Could not serve: ', error)
+const start = async () => {
+      try {
+            await connectToDb()
+            listen()
+      } catch (error) {
+            console.error('Could not start required services, exiting....')
+            process.exit()
       }
-      console.log('Listening on port 3000')
-})
+}
 
+const listen = () => {
+      app.listen(3000, (error) => {
+            if (error) {
+                  console.error('Could not serve: ', error)
+                  throw error
+            }
+            console.log('Listening on port 3000')
+      })
+}
 
 const connectToDb = async () => {
       try {
@@ -27,7 +39,9 @@ const connectToDb = async () => {
             console.log('DB connected')
       } catch (error) {
             console.error('Could not connect to db: ', error)
+            throw error
       }
 }
 
-connectToDb()
+start()
+
