@@ -6,6 +6,7 @@ const MongoStore = require('connect-mongo')
 require('dotenv').config()
 
 const app = express()
+const router = express.Router()
 
 const mongoUrl = `mongodb+srv://rickard:${process.env.DB_PASSWORD}@cluster0.pn9qj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
 
@@ -32,10 +33,21 @@ app.use(session({
       store: new MongoStore({ mongoUrl, collectionName: 'sessions' })
 }))
 
+app.use(router)
+
 app.use('/restrictedSites', (req,res,next) => {
       // Validate if user is authenticated
       if(req.session.user) {
             next()
+            return
+      }
+      res.redirect('/login.html')
+})
+
+router.get('/', (req,res) => {
+      console.log('hello')
+      if(req.session.user) {
+            res.redirect('/restrictedSites/index.html')
             return
       }
       res.redirect('/login.html')
