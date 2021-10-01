@@ -13,7 +13,7 @@ router.post('/login', async (req, res) => {
             const payload = await verify(id_token)
             const user = checkUserInDb(payload)
             req.session.user = user
-            res.redirect('/')
+            res.redirect('/restrictedSites/index.html')
       } catch (error) {
             console.error('Error in login: ', error)
             res.status(500).send('Something went wrong')

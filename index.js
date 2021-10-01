@@ -31,6 +31,16 @@ app.use(session({
       cookie: { secure: false, maxAge: 1000 * 60 }, // We do not have https yet
       store: new MongoStore({ mongoUrl, collectionName: 'sessions' })
 }))
+
+app.use('/restrictedSites', (req,res,next) => {
+      // Validate if user is authenticated
+      if(req.session.user) {
+            next()
+            return
+      }
+      res.redirect('/login.html')
+})
+
 app.use(express.static('public'))
 app.use('/auth', require('./routes/auth'))
 
